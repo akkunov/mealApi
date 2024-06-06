@@ -60,7 +60,6 @@ const initialState = {
         data:{}
     },
     isLoading:false,
-    isRetryed: false,
     error: null
 }
 
@@ -70,9 +69,17 @@ const mealSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(searchMeal.pending, (state) =>{
             state.data.isLoading = true
+            state.data.error = null;
+            state.data.dat = []
         })
         builder.addCase(searchMeal.fulfilled, (state, action) =>{
-            state.data.data = action.payload?.meals || [];
+            if (!action.payload.meals){
+                state.data.error = 'No meals'
+                state.data.isLoading  = false;
+                state.data.data = []
+                return
+            }
+            state.data.data = action.payload.meals || [];
             state.data.isLoading  = false;
             state.data.isRetryed  = true
         })

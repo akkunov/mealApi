@@ -6,9 +6,6 @@ import Preloader from "../preloader/index.jsx";
 
 function Meals() {
     const {data, isLoading, error, isRetryed} = useSelector(state => state.meals.data);
-    if(!isRetryed){
-        return
-    }
     if (isLoading) {
         return (
             <div className={style.center}>
