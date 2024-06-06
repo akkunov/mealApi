@@ -1,0 +1,15 @@
+.logo{
+    width: auto;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #1a1a1a;
+}
+@media (max-width: 490px) {
+    .logoText{
+        font-size: 1.2rem;
+    }
+}
