@@ -25,7 +25,7 @@ export const searchMealById = createAsyncThunk(
             if(response.status !==200){
                 throw  Error('error fetching data')
             }
-            return response.data
+            return response.data.meals[0]
         }catch (e) {
             return rejectWithValue(e)
         }
@@ -40,7 +40,7 @@ export const searchRandomMeal = createAsyncThunk(
             if(response.status !==200){
                 throw  Error('error fetching data')
             }
-            return response.data
+            return response.data.meals[0]
         }catch (e) {
             return rejectWithValue(e)
         }
@@ -85,12 +85,12 @@ const mealSlice = createSlice({
             state.detailedData.isLoading = true
         })
         builder.addCase(searchMealById.fulfilled, (state, action) =>{
-            if(!action.payload.meals){
+            if(!action.payload){
                 state.detailedData.isLoading = false;
                 state.detailedData.error = 'No Meals'
                 return
             }
-            const recipeData  = action.payload.meals[0]
+            const recipeData  = action.payload
             const maxNumber = getMaxIngredientNumber(recipeData);
             const ingredients = [];
             for (let i= 0; i < maxNumber ; i++){
@@ -112,12 +112,12 @@ const mealSlice = createSlice({
             state.detailedData.isLoading = true
         })
         builder.addCase(searchRandomMeal.fulfilled, (state, action) =>{
-            if(!action.payload.meals[0] || !action.payload.meals){
+            if(!action.payload){
                 state.detailedData.error = 'No Meals';
                 state.detailedData.isLoading= false
                 return
             }
-            state.detailedData.data = action.payload.meals[0];
+            state.detailedData.data = action.payload;
             state.detailedData.isLoading= false
         })
         builder.addCase(searchRandomMeal.rejected, (state, action) =>{
